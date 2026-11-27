@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shan Shan — Creative Designer & Web Developer</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Konfigurasi Tailwind untuk Dark Mode & Font Kustom -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+          },
+          colors: {
+            cream: {
+              50: '#FDFBF7',
+              100: '#F7F3EB',
+              200: '#EFE7D8',
+              300: '#E2D4BC',
+            },
+            terracotta: {
+              400: '#E07A5F',
+              500: '#D16042',
+              600: '#B84B2E',
+            },
+            charcoal: {
+              800: '#242220',
+              900: '#181615',
+              950: '#11100F',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Utilitas Animasi Reveal saat Scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Kustomisasi Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D16042;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-cream-50 text-stone-800 dark:bg-charcoal-950 dark:text-cream-100 font-sans antialiased transition-colors duration-300 selection:bg-terracotta-400 selection:text-white overflow-x-hidden">
+
+  <!-- ==================== 1. NAVBAR ==================== -->
+  <header id="navbar" class="fixed top-0 inset-x-0 z-40 transition-all duration-300 bg-cream-50/80 dark:bg-charcoal-950/80 backdrop-blur-md border-b border-stone-200/60 dark:border-stone-800/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo -->
+        <a href="#beranda" class="flex items-center gap-2 group">
+          <span class="w-9 h-9 rounded-full bg-terracotta-500 text-white flex items-center justify-center font-serif font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
+            S
+          </span>
+          <span class="font-serif text-xl sm:text-2xl font-bold tracking-tight text-stone-900 dark:text-cream-50">
+            Shan<span class="text-terracotta-500">.</span>Shan
+          </span>
+        </a>
+
+        <!-- Menu Desktop -->
+        <nav class="hidden md:flex items-center gap-8">
+          <a href="#beranda" class="text-sm font-medium text-stone-600 hover:text-terracotta-500 dark:text-stone-300 dark:hover:text-terracotta-400 transition-colors">Beranda</a>
+          <a href="#tentang" class="text-sm font-medium text-stone-600 hover:text-terracotta-500 dark:text-stone-300 dark:hover:text-terracotta-400 transition-colors">Tentang Saya</a>
+          <a href="#keahlian" class="text-sm font-medium text-stone-600 hover:text-terracotta-500 dark:text-stone-300 dark:hover:text-terracotta-400 transition-colors">Keahlian</a>
+          <a href="#proyek" class="text-sm font-medium text-stone-600 hover:text-terracotta-500 dark:text-stone-300 dark:hover:text-terracotta-400 transition-colors">Proyek</a>
+          <a href="#kontak" class="text-sm font-medium text-stone-600 hover:text-terracotta-500 dark:text-stone-300 dark:hover:text-terracotta-400 transition-colors">Kontak</a>
+        </nav>
+
+        <!-- Tombol Tema & Hamburger Mobile -->
+        <div class="flex items-center gap-3">
+          <!-- Tombol Dark/Light Mode -->
+          <button id="theme-toggle" aria-label="Ubah Tema" class="p-2.5 rounded-full bg-cream-100 dark:bg-charcoal-800 text-stone-700 dark:text-cream-200 hover:bg-cream-200 dark:hover:bg-stone-700 transition-colors border border-stone-200/80 dark:border-stone-700">
+            <i id="theme-icon-sun" data-lucide="sun" class="w-5 h-5 hidden"></i>
+            <i id="theme-icon-moon" data-lucide="moon" class="w-5 h-5"></i>
+          </button>
+
+          <!-- Tombol Menu Mobile -->
+          <button id="mobile-menu-btn" aria-label="Buka Menu" class="md:hidden p-2.5 rounded-xl bg-cream-100 dark:bg-charcoal-800 text-stone-700 dark:text-cream-200 border border-stone-200/80 dark:border-stone-700">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dropdown Menu Mobile -->
+    <div id="mobile-menu" class="hidden md:hidden bg-cream-50 dark:bg-charcoal-900 border-b border-stone-200 dark:border-stone-800 px-4 pt-2 pb-6 space-y-2 shadow-lg">
+      <a href="#beranda" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium hover:bg-cream-100 dark:hover:bg-charcoal-800">Beranda</a>
+      <a href="#tentang" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium hover:bg-cream-100 dark:hover:bg-charcoal-800">Tentang Saya</a>
+      <a href="#keahlian" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium hover:bg-cream-100 dark:hover:bg-charcoal-800">Keahlian</a>
+      <a href="#proyek" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium hover:bg-cream-100 dark:hover:bg-charcoal-800">Proyek</a>
+      <a href="#kontak" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium hover:bg-cream-100 dark:hover:bg-charcoal-800">Kontak</a>
+    </div>
+  </header>
+
+  <!-- ==================== 2. HERO SECTION ==================== -->
+  <section id="beranda" class="pt-32 pb-20 md:pt-40 md:pb-28 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      
+      <!-- Teks Perkenalan -->
+      <div class="lg:col-span-7 space-y-6 text-center lg:text-left reveal">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cream-200/70 dark:bg-charcoal-800 text-terracotta-600 dark:text-terracotta-400 text-xs sm:text-sm font-semibold tracking-wide">
+          <span class="w-2 h-2 rounded-full bg-terracotta-500 animate-pulse"></span>
+          Tersedia untuk Proyek Kreatif & Kolaborasi
+        </div>
+        
+        <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-stone-900 dark:text-cream-50">
+          Halo, saya <span class="text-terracotta-500 italic">Shan Shan</span>.<br>
+          Merancang Pengalaman Digital yang Bermakna.
+        </h1>
+        
+        <p class="text-base sm:text-lg text-stone-600 dark:text-stone-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+          Seorang <strong>Creative Designer & Web Developer</strong> yang memadukan estetika visual hangat dengan kode bersih yang fungsional. Saya membantu brand dan individu bercerita lewat antarmuka web yang memikat.
+        </p>
+
+        <!-- Tombol CTA -->
+        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+          <a href="#proyek" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-terracotta-500 hover:bg-terracotta-600 text-white font-semibold shadow-lg shadow-terracotta-500/25 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2">
+            <span>Lihat Karya</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          </a>
+          <a href="#kontak" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-cream-100 hover:bg-cream-200 dark:bg-charcoal-800 dark:hover:bg-stone-700 text-stone-800 dark:text-cream-100 font-semibold border border-stone-200 dark:border-stone-700 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2">
+            <span>Hubungi Saya</span>
+            <i data-lucide="mail" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Foto Profil Ilustratif Estetik -->
+      <div class="lg:col-span-5 flex justify-center reveal">
+        <div class="relative w-72 h-80 sm:w-80 sm:h-96">
+          <!-- Dekorasi Latar -->
+          <div class="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-tr from-terracotta-400/30 to-cream-300/60 dark:from-terracotta-500/20 dark:to-charcoal-800 rotate-6 transition-transform duration-500"></div>
+          <div class="absolute -inset-4 rounded-[2.5rem] border-2 border-terracotta-400/40 -rotate-3"></div>
+          
+          <!-- Kartu Foto Profil -->
+          <div class="relative w-full h-full rounded-[2rem] overflow-hidden bg-cream-200 dark:bg-charcoal-800 shadow-2xl border-4 border-white dark:border-charcoal-900">
+            <img 
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" 
+              alt="Potret Estetik Shan Shan" 
+              onerror="this.onerror=null; this.src='https://placehold.co/600x750/E07A5F/FDFBF7?text=Shan+Shan';"
+              class="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
+            >
+            <!-- Badge Melayang -->
+            <div class="absolute bottom-4 left-4 right-4 p-3.5 rounded-2xl bg-white/90 dark:bg-charcoal-900/90 backdrop-blur-md shadow-lg border border-stone-100 dark:border-stone-800 flex items-center justify-between">
+              <div>
+                <p class="text-xs text-stone-500 dark:text-stone-400">Fokus Utama</p>
+                <p class="text-sm font-bold text-stone-900 dark:text-cream-50">UI/UX & Frontend Web</p>
+              </div>
+              <span class="w-9 h-9 rounded-xl bg-terracotta-500/15 text-terracotta-600 dark:text-terracotta-400 flex items-center justify-center">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 3. TENTANG SAYA (ABOUT ME) ==================== -->
+  <section id="tentang" class="py-20 bg-cream-100/70 dark:bg-charcoal-900/50 border-y border-stone-200/60 dark:border-stone-800/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Kartu Statistik & Pencapaian -->
+        <div class="lg:col-span-5 grid grid-cols-2 gap-4 reveal">
+          <div class="p-6 rounded-3xl bg-white dark:bg-charcoal-800 shadow-sm border border-stone-200/60 dark:border-stone-700/60">
+            <span class="font-serif text-3xl sm:text-4xl font-bold text-terracotta-500">4+</span>
+            <p class="mt-2 text-sm font-medium text-stone-600 dark:text-stone-300">Tahun Pengalaman Kreatif</p>
+          </div>
+          <div class="p-6 rounded-3xl bg-white dark:bg-charcoal-800 shadow-sm border border-stone-200/60 dark:border-stone-700/60">
+            <span class="font-serif text-3xl sm:text-4xl font-bold text-terracotta-500">35+</span>
+            <p class="mt-2 text-sm font-medium text-stone-600 dark:text-stone-300">Proyek Digital Selesai</p>
+          </div>
+          <div class="p-6 rounded-3xl bg-white dark:bg-charcoal-800 shadow-sm border border-stone-200/60 dark:border-stone-700/60">
+            <span class="font-serif text-3xl sm:text-4xl font-bold text-terracotta-500">20+</span>
+            <p class="mt-2 text-sm font-medium text-stone-600 dark:text-stone-300">Klien Puas Global & Lokal</p>
+          </div>
+          <div class="p-6 rounded-3xl bg-terracotta-500 text-white shadow-md">
+            <i data-lucide="award" class="w-8 h-8 mb-2"></i>
+            <p class="text-sm font-semibold">Best UI Design Award 2025</p>
+          </div>
+        </div>
+
+        <!-- Narasi Tentang Shan Shan -->
+        <div class="lg:col-span-7 space-y-5 reveal">
+          <span class="text-xs font-bold uppercase tracking-widest text-terracotta-500">Tentang Saya</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-stone-900 dark:text-cream-50">
+            Menjembatani Seni Visual dan Teknologi Web Modern
+          </h2>
+          <p class="text-stone-600 dark:text-stone-300 leading-relaxed">
+            Perjalanan saya dimulai dari kecintaan mendalam terhadap ilustrasi, tipografi, dan bagaimana warna dapat membangkitkan emosi seseorang. Seiring waktu, ketertarikan itu berkembang ke dunia pengembangan web interaktif.
+          </p>
+          <p class="text-stone-600 dark:text-stone-300 leading-relaxed">
+            Bagi saya, desain yang baik bukan hanya soal tampilan yang cantik, melainkan tentang kemudahan pengguna menemukan apa yang mereka cari dengan rasa nyaman. Di luar layar komputer, saya senang menyeduh kopi manual, memotret arsitektur sudut kota, dan membuat sketsa cat air.
+          </p>
+          
+          <!-- Poin Minat -->
+          <div class="pt-3 flex flex-wrap gap-2.5">
+            <span class="px-4 py-2 rounded-full text-xs font-medium bg-white dark:bg-charcoal-800 border border-stone-200 dark:border-stone-700 flex items-center gap-1.5">
+              <i data-lucide="palette" class="w-3.5 h-3.5 text-terracotta-500"></i> Desain Minimalis
+            </span>
+            <span class="px-4 py-2 rounded-full text-xs font-medium bg-white dark:bg-charcoal-800 border border-stone-200 dark:border-stone-700 flex items-center gap-1.5">
+              <i data-lucide="code-2" class="w-3.5 h-3.5 text-terracotta-500"></i> Creative Coding
+            </span>
+            <span class="px-4 py-2 rounded-full text-xs font-medium bg-white dark:bg-charcoal-800 border border-stone-200 dark:border-stone-700 flex items-center gap-1.5">
+              <i data-lucide="camera" class="w-3.5 h-3.5 text-terracotta-500"></i> Fotografi Analog
+            </span>
+            <span class="px-4 py-2 rounded-full text-xs font-medium bg-white dark:bg-charcoal-800 border border-stone-200 dark:border-stone-700 flex items-center gap-1.5">
+              <i data-lucide="coffee" class="w-3.5 h-3.5 text-terracotta-500"></i> Pencinta Kopi
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 4. KEAHLIAN (SKILLS) ==================== -->
+  <section id="keahlian" class="py-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-14 reveal">
+      <span class="text-xs font-bold uppercase tracking-widest text-terracotta-500">Keahlian & Kompetensi</span>
+      <h2 class="font-serif text-3xl sm:text-4xl font-bold mt-2 text-stone-900 dark:text-cream-50">
+        Apa yang Bisa Saya Bantu Wujudkan
+      </h2>
+      <p class="mt-3 text-stone-600 dark:text-stone-300 text-sm sm:text-base">
+        Kombinasi keahlian desain strategis dan pengembangan teknis untuk menghadirkan produk digital yang utuh.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+      
+      <!-- Kartu Keahlian 1 -->
+      <div class="p-7 rounded-3xl bg-white dark:bg-charcoal-800/80 border border-stone-200/70 dark:border-stone-700/70 shadow-sm hover:shadow-md transition-all">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-12 h-12 rounded-2xl bg-terracotta-500/10 text-terracotta-500 flex items-center justify-center">
+            <i data-lucide="layout" class="w-6 h-6"></i>
+          </div>
+          <span class="text-sm font-bold text-terracotta-500">95%</span>
+        </div>
+        <h3 class="text-xl font-bold text-stone-900 dark:text-cream-50">UI/UX Design</h3>
+        <p class="text-sm text-stone-600 dark:text-stone-300 mt-1.5 mb-5">
+          Riset pengguna, wireframing, prototyping interaktif di Figma, serta perancangan sistem desain yang konsisten.
+        </p>
+        <div class="w-full h-2.5 bg-cream-200 dark:bg-charcoal-900 rounded-full overflow-hidden">
+          <div class="h-full bg-terracotta-500 rounded-full" style="width: 95%"></div>
+        </div>
+      </div>
+
+      <!-- Kartu Keahlian 2 -->
+      <div class="p-7 rounded-3xl bg-white dark:bg-charcoal-800/80 border border-stone-200/70 dark:border-stone-700/70 shadow-sm hover:shadow-md transition-all">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-12 h-12 rounded-2xl bg-terracotta-500/10 text-terracotta-500 flex items-center justify-center">
+            <i data-lucide="code" class="w-6 h-6"></i>
+          </div>
+          <span class="text-sm font-bold text-terracotta-500">92%</span>
+        </div>
+        <h3 class="text-xl font-bold text-stone-900 dark:text-cream-50">HTML, CSS & JavaScript</h3>
+        <p class="text-sm text-stone-600 dark:text-stone-300 mt-1.5 mb-5">
+          Membangun antarmuka web responsif dengan Tailwind CSS, animasi mikro yang halus, dan performa aksesibilitas tinggi.
+        </p>
+        <div class="w-full h-2.5 bg-cream-200 dark:bg-charcoal-900 rounded-full overflow-hidden">
+          <div class="h-full bg-terracotta-500 rounded-full" style="width: 92%"></div>
+        </div>
+      </div>
+
+      <!-- Kartu Keahlian 3 -->
+      <div class="p-7 rounded-3xl bg-white dark:bg-charcoal-800/80 border border-stone-200/70 dark:border-stone-700/70 shadow-sm hover:shadow-md transition-all">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-12 h-12 rounded-2xl bg-terracotta-500/10 text-terracotta-500 flex items-center justify-center">
+            <i data-lucide="feather" class="w-6 h-6"></i>
+          </div>
+          <span class="text-sm font-bold text-terracotta-500">88%</span>
+        </div>
+        <h3 class="text-xl font-bold text-stone-900 dark:text-cream-50">Brand Identity & Visual</h3>
+        <p class="text-sm text-stone-600 dark:text-stone-300 mt-1.5 mb-5">
+          Perancangan logo, panduan identitas visual, pemilihan palet warna, dan kurasi tipografi yang berkarakter.
+        </p>
+        <div class="w-full h-2.5 bg-cream-200 dark:bg-charcoal-900 rounded-full overflow-hidden">
+          <div class="h-full bg-terracotta-500 rounded-full" style="width: 88%"></div>
+        </div>
+      </div>
+
+      <!-- Kartu Keahlian 4 -->
+      <div class="p-7 rounded-3xl bg-white dark:bg-charcoal-800/80 border border-stone-200/70 dark:border-stone-700/70 shadow-sm hover:shadow-md transition-all">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-12 h-12 rounded-2xl bg-terracotta-500/10 text-terracotta-500 flex items-center justify-center">
+            <i data-lucide="camera" class="w-6 h-6"></i>
+          </div>
+          <span class="text-sm font-bold text-terracotta-500">85%</span>
+        </div>
+        <h3 class="text-xl font-bold text-stone-900 dark:text-cream-50">Fotografi & Ilustrasi Digital</h3>
+        <p class="text-sm text-stone-600 dark:text-stone-300 mt-1.5 mb-5">
+          Pengarahan artistik (art direction), ilustrasi editorial kustom, dan penyuntingan warna untuk kebutuhan konten visual.
+        </p>
+        <div class="w-full h-2.5 bg-cream-200 dark:bg-charcoal-900 rounded-full overflow-hidden">
+          <div class="h-full bg-terracotta-500 rounded-full" style="width: 85%"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 5. PORTOFOLIO / PROYEK (PROJECTS) ==================== -->
+  <section id="proyek" class="py-20 bg-cream-100/70 dark:bg-charcoal-900/50 border-y border-stone-200/60 dark:border-stone-800/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Header & Filter Kategori -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-terracotta-500">Portofolio Pilihan</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold mt-2 text-stone-900 dark:text-cream-50">
+            Karya Terbaru Saya
+          </h2>
+        </div>
+
+        <!-- Tombol Filter -->
+        <div id="filter-container" class="flex flex-wrap gap-2">
+          <button data-filter="all" class="filter-btn active px-5 py-2.5 rounded-full text-sm font-semibold bg-terracotta-500 text-white shadow-sm transition-all">
+            Semua
+          </button>
+          <button data-filter="Web Design" class="filter-btn px-5 py-2.5 rounded-full text-sm font-semibold bg-white dark:bg-charcoal-800 text-stone-700 dark:text-stone-300 hover:bg-cream-200 dark:hover:bg-stone-700 transition-all">
+            Web Design
+          </button>
+          <button data-filter="UI/UX" class="filter-btn px-5 py-2.5 rounded-full text-sm font-semibold bg-white dark:bg-charcoal-800 text-stone-700 dark:text-stone-300 hover:bg-cream-200 dark:hover:bg-stone-700 transition-all">
+            UI/UX
+          </button>
+          <button data-filter="Branding" class="filter-btn px-5 py-2.5 rounded-full text-sm font-semibold bg-white dark:bg-charcoal-800 text-stone-700 dark:text-stone-300 hover:bg-cream-200 dark:hover:bg-stone-700 transition-all">
+            Branding
+          </button>
+        </div>
+      </div>
+
+      <!-- Grid Kartu Proyek (Dirender lewat JS agar sinkron dengan Modal) -->
+      <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 reveal">
+        <!-- Item proyek akan dimasukkan oleh JavaScript -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 6. KONTAK (CONTACT) ==================== -->
+  <section id="kontak" class="py-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      
+      <!-- Info Kontak & Media Sosial -->
+      <div class="lg:col-span-5 space-y-6 reveal">
+        <span class="text-xs font-bold uppercase tracking-widest text-terracotta-500">Mari Berkolaborasi</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-stone-900 dark:text-cream-50">
+          Punya Ide Proyek Menarik? Mari Diskusikan.
+        </h2>
+        <p class="text-stone-600 dark:text-stone-300 leading-relaxed">
+          Apakah Anda sedang merencanakan pembuatan situs web baru, pembaruan tampilan aplikasi, atau sekadar ingin menyapa, kotak masuk saya selalu terbuka.
+        </p>
+
+        <div class="space-y-4 pt-2">
+          <div class="flex items-center gap-4">
+            <div class="w-11 h-11 rounded-2xl bg-terracotta-500/10 text-terracotta-500 flex items-center justify-center shrink-0">
+              <i data-lucide="mail" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="text-xs text-stone-500 dark:text-stone-400">Email Langsung</p>
+              <p class="font-semibold text-stone-900 dark:text-cream-50">halo@shanshan.studio</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-11 h-11 rounded-2xl bg-terracotta-500/10 text-terracotta-500 flex items-center justify-center shrink-0">
+              <i data-lucide="map-pin" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="text-xs text-stone-500 dark:text-stone-400">Lokasi</p>
+              <p class="font-semibold text-stone-900 dark:text-cream-50">Jakarta & Singkawang, Indonesia</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tautan Media Sosial -->
+        <div class="pt-4">
+          <p class="text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-3">Temukan Saya di</p>
+          <div class="flex items-center gap-3">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="w-11 h-11 rounded-2xl bg-cream-100 dark:bg-charcoal-800 hover:bg-terracotta-500 hover:text-white dark:hover:bg-terracotta-500 text-stone-700 dark:text-cream-200 flex items-center justify-center transition-colors border border-stone-200 dark:border-stone-700">
+              <i data-lucide="instagram" class="w-5 h-5"></i>
+            </a>
+            <a href="https://dribbble.com" target="_blank" rel="noopener noreferrer" aria-label="Dribbble" class="w-11 h-11 rounded-2xl bg-cream-100 dark:bg-charcoal-800 hover:bg-terracotta-500 hover:text-white dark:hover:bg-terracotta-500 text-stone-700 dark:text-cream-200 flex items-center justify-center transition-colors border border-stone-200 dark:border-stone-700">
+              <i data-lucide="dribbble" class="w-5 h-5"></i>
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="w-11 h-11 rounded-2xl bg-cream-100 dark:bg-charcoal-800 hover:bg-terracotta-500 hover:text-white dark:hover:bg-terracotta-500 text-stone-700 dark:text-cream-200 flex items-center justify-center transition-colors border border-stone-200 dark:border-stone-700">
+              <i data-lucide="linkedin" class="w-5 h-5"></i>
+            </a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="w-11 h-11 rounded-2xl bg-cream-100 dark:bg-charcoal-800 hover:bg-terracotta-500 hover:text-white dark:hover:bg-terracotta-500 text-stone-700 dark:text-cream-200 flex items-center justify-center transition-colors border border-stone-200 dark:border-stone-700">
+              <i data-lucide="github" class="w-5 h-5"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulir Pesan Interaktif -->
+      <div class="lg:col-span-7 reveal">
+        <form id="contact-form" novalidate class="p-7 sm:p-9 rounded-3xl bg-white dark:bg-charcoal-800/90 border border-stone-200/80 dark:border-stone-700/80 shadow-lg space-y-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label for="name" class="block text-sm font-semibold mb-2 text-stone-700 dark:text-cream-200">Nama Lengkap</label>
+              <input type="text" id="name" name="name" placeholder="Masukkan nama Anda" class="w-full px-4 py-3.5 rounded-2xl bg-cream-50 dark:bg-charcoal-900 border border-stone-200 dark:border-stone-700 focus:outline-none focus:ring-2 focus:ring-terracotta-500 text-sm transition-all">
+              <p id="error-name" class="text-xs text-red-500 mt-1.5 hidden">Nama wajib diisi minimal 2 karakter.</p>
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-semibold mb-2 text-stone-700 dark:text-cream-200">Alamat Email</label>
+              <input type="email" id="email" name="email" placeholder="nama@email.com" class="w-full px-4 py-3.5 rounded-2xl bg-cream-50 dark:bg-charcoal-900 border border-stone-200 dark:border-stone-700 focus:outline-none focus:ring-2 focus:ring-terracotta-500 text-sm transition-all">
+              <p id="error-email" class="text-xs text-red-500 mt-1.5 hidden">Masukkan alamat email yang valid.</p>
+            </div>
+          </div>
+
+          <div>
+            <label for="subject" class="block text-sm font-semibold mb-2 text-stone-700 dark:text-cream-200">Subjek / Topik</label>
+            <select id="subject" name="subject" class="w-full px-4 py-3.5 rounded-2xl bg-cream-50 dark:bg-charcoal-900 border border-stone-200 dark:border-stone-700 focus:outline-none focus:ring-2 focus:ring-terracotta-500 text-sm transition-all">
+              <option value="Proyek Website">Pembuatan Website / Web Design</option>
+              <option value="Desain UI/UX">Desain UI/UX Aplikasi</option>
+              <option value="Branding">Identitas Visual & Branding</option>
+              <option value="Lainnya">Kolaborasi / Pertanyaan Umum</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="message" class="block text-sm font-semibold mb-2 text-stone-700 dark:text-cream-200">Pesan Anda</label>
+            <textarea id="message" name="message" rows="4" placeholder="Ceritakan sedikit mengenai ide atau kebutuhan proyek Anda..." class="w-full px-4 py-3.5 rounded-2xl bg-cream-50 dark:bg-charcoal-900 border border-stone-200 dark:border-stone-700 focus:outline-none focus:ring-2 focus:ring-terracotta-500 text-sm transition-all resize-none"></textarea>
+            <p id="error-message" class="text-xs text-red-500 mt-1.5 hidden">Pesan tidak boleh kosong (minimal 10 karakter).</p>
+          </div>
+
+          <button type="submit" class="w-full py-4 rounded-2xl bg-terracotta-500 hover:bg-terracotta-600 text-white font-semibold shadow-lg shadow-terracotta-500/20 transition-all flex items-center justify-center gap-2">
+            <span>Kirim Pesan Sekarang</span>
+            <i data-lucide="send" class="w-4 h-4"></i>
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 7. FOOTER ==================== -->
+  <footer class="py-10 border-t border-stone-200/80 dark:border-stone-800/80 bg-cream-100/50 dark:bg-charcoal-950">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="font-serif text-lg font-bold text-stone-900 dark:text-cream-50">
+          Shan<span class="text-terracotta-500">.</span>Shan
+        </span>
+        <span class="text-stone-400">•</span>
+        <span class="text-xs text-stone-500 dark:text-stone-400">Creative Designer & Web Developer</span>
+      </div>
+      <p class="text-xs sm:text-sm text-stone-500 dark:text-stone-400 text-center">
+        &copy; <span id="current-year"></span> Shan Shan. Seluruh Hak Cipta Dilindungi.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ==================== MODAL DETAIL PROYEK ==================== -->
+  <div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-stone-950/60 backdrop-blur-sm transition-opacity">
+    <div class="relative w-full max-w-2xl rounded-3xl bg-white dark:bg-charcoal-900 border border-stone-200 dark:border-stone-800 shadow-2xl overflow-hidden transform transition-all">
+      
+      <!-- Tombol Tutup Modal -->
+      <button id="close-modal" aria-label="Tutup Detail" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/90 dark:bg-charcoal-800/90 text-stone-800 dark:text-cream-100 flex items-center justify-center shadow-md hover:bg-terracotta-500 hover:text-white transition-colors">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Gambar Modal -->
+      <div class="h-60 sm:h-72 w-full bg-cream-200 dark:bg-charcoal-800 overflow-hidden">
+        <img id="modal-img" src="" alt="Preview Proyek" class="w-full h-full object-cover">
+      </div>
+
+      <!-- Konten Detail Modal -->
+      <div class="p-6 sm:p-8 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <span id="modal-category" class="px-3.5 py-1 rounded-full text-xs font-bold bg-terracotta-500/15 text-terracotta-600 dark:text-terracotta-400"></span>
+          <span id="modal-year" class="text-xs font-medium text-stone-500 dark:text-stone-400"></span>
+        </div>
+
+        <h3 id="modal-title" class="font-serif text-2xl sm:text-3xl font-bold text-stone-900 dark:text-cream-50"></h3>
+        <p id="modal-desc" class="text-sm sm:text-base text-stone-600 dark:text-stone-300 leading-relaxed"></p>
+
+        <!-- Teknologi / Tools -->
+        <div class="pt-2">
+          <p class="text-xs font-semibold uppercase tracking-wider text-stone-400 mb-2">Perangkat & Teknologi</p>
+          <div id="modal-tags" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <div class="pt-4 flex justify-end">
+          <a href="#kontak" id="modal-cta" class="px-6 py-3 rounded-2xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-sm font-semibold transition-colors inline-flex items-center gap-2">
+            <span>Diskusikan Proyek Serupa</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== NOTIFIKASI TOAST ==================== -->
+  <div id="toast-notification" class="fixed bottom-6 right-6 z-50 translate-y-24 opacity-0 pointer-events-none transition-all duration-300">
+    <div class="flex items-center gap-3 px-5 py-4 rounded-2xl bg-stone-900 dark:bg-cream-100 text-white dark:text-stone-900 shadow-xl border border-stone-700 dark:border-stone-300">
+      <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0">
+        <i data-lucide="check" class="w-4 h-4"></i>
+      </div>
+      <div>
+        <p class="text-sm font-bold">Pesan Terkirim!</p>
+        <p class="text-xs opacity-80">Terima kasih, Shan Shan akan segera membalas pesan Anda.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT INTERAKTIF ==================== -->
+  <script>
+    // Inisialisasi ikon Lucide
+    lucide.createIcons();
+
+    // Tahun Otomatis di Footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // 1. LOGIKA PENGUBAH TEMA (DARK / LIGHT MODE)
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const sunIcon = document.getElementById('theme-icon-sun');
+    const moonIcon = document.getElementById('theme-icon-moon');
+    const htmlEl = document.documentElement;
+
+    function updateThemeIcons(isDark) {
+      if (isDark) {
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+      } else {
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+      }
+    }
+
+    // Cek preferensi tersimpan atau sistem
+    const savedTheme = localStorage.getItem('shanshan-theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+      htmlEl.classList.add('dark');
+      updateThemeIcons(true);
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      const isDark = htmlEl.classList.toggle('dark');
+      localStorage.setItem('shanshan-theme', isDark ? 'dark' : 'light');
+      updateThemeIcons(isDark);
+    });
+
+    // 2. LOGIKA MENU MOBILE
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // 3. DATA PORTOFOLIO PROYEK
+    const projectsData = [
+      {
+        id: 1,
+        title: "Kala Senja Roastery",
+        category: "Web Design",
+        year: "2026",
+        shortDesc: "Situs web e-commerce dan cerita asal biji kopi Nusantara dengan nuansa editorial hangat.",
+        fullDesc: "Merancang dan mengembangkan platform web responsif untuk Kala Senja Roastery. Fokus utama proyek ini adalah menghadirkan pengalaman berbelanja biji kopi specialty yang terasa personal, lengkap dengan panduan seduh interaktif dan animasi transisi yang lembut.",
+        image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80",
+        tags: ["HTML5", "Tailwind CSS", "JavaScript", "UI Design"]
+      },
+      {
+        id: 2,
+        title: "NusaWalk Mobile App",
+        category: "UI/UX",
+        year: "2025",
+        shortDesc: "Aplikasi panduan wisata jalan kaki mandiri untuk menjelajahi kota bersejarah di Indonesia.",
+        fullDesc: "Melakukan riset pengguna dan merancang antarmuka aplikasi mobile berbasis peta audio. Pengguna dapat mendengarkan kisah sejarah setiap bangunan cagar budaya secara otomatis saat melewati titik lokasi tertentu.",
+        image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=900&q=80",
+        tags: ["Figma", "User Research", "Prototyping", "Design System"]
+      },
+      {
+        id: 3,
+        title: "Atelier Tanah Liat",
+        category: "Branding",
+        year: "2025",
+        shortDesc: "Identitas visual, kemasan ramah lingkungan, dan arah fotografi untuk studio keramik lokal.",
+        fullDesc: "Menciptakan identitas merek menyeluruh mulai dari perancangan logotype organik, palet warna bernuansa bumi (terracotta & pasir), hingga desain kotak kemasan berbahan kertas daur ulang yang mencerminkan karakter kerajinan tangan.",
+        image: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=900&q=80",
+        tags: ["Brand Identity", "Packaging", "Art Direction", "Typography"]
+      },
+      {
+        id: 4,
+        title: "Jurnal Mindful Living",
+        category: "Web Design",
+        year: "2025",
+        shortDesc: "Platform publikasi digital minimalis untuk artikel kesehatan mental dan gaya hidup lambat.",
+        fullDesc: "Mengembangkan tata letak majalah digital yang mengutamakan kenyamanan membaca (readability), dilengkapi fitur mode baca malam, estimasi waktu baca, dan ilustrasi tajuk kustom.",
+        image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=900&q=80",
+        tags: ["Editorial Web", "Typography", "Responsive UI", "CSS Grid"]
+      },
+      {
+        id: 5,
+        title: "FinPlan Keuangan Pribadi",
+        category: "UI/UX",
+        year: "2024",
+        shortDesc: "Dasbor manajemen anggaran keluarga yang intuitif dengan visualisasi data yang ramah pemula.",
+        fullDesc: "Menyederhanakan pencatatan keuangan harian menjadi tampilan kartu visual yang mudah dipahami. Dilengkapi sistem pengingat tagihan dan target tabungan berbasis tujuan.",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
+        tags: ["Dashboard UI", "UX Flow", "Data Visualization", "Figma"]
+      },
+      {
+        id: 6,
+        title: "Teh Bunga Melati",
+        category: "Branding",
+        year: "2024",
+        shortDesc: "Rebranding merek teh artisan tradisional agar relevan dengan generasi muda urban.",
+        fullDesc: "Menggabungkan motif botani klasik dengan tipografi serif modern untuk menghadirkan kesan elegan dan menenangkan pada rangkaian produk teh seduh daun utuh.",
+        image: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=900&q=80",
+        tags: ["Logo Design", "Ilustrasi Botani", "Visual Identity"]
+      }
+    ];
+
+    const projectsGrid = document.getElementById('projects-grid');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+
+    function renderProjects(filter = 'all') {
+      projectsGrid.innerHTML = '';
+      const filtered = filter === 'all' 
+        ? projectsData 
+        : projectsData.filter(item => item.category === filter);
+
+      filtered.forEach(project => {
+        const card = document.createElement('article');
+        card.className = "group rounded-3xl bg-white dark:bg-charcoal-800 border border-stone-200/70 dark:border-stone-700/70 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer";
+        card.innerHTML = `
+          <div class="relative h-56 overflow-hidden bg-cream-200 dark:bg-charcoal-900">
+            <img 
+              src="${project.image}" 
+              alt="${project.title}" 
+              onerror="this.onerror=null; this.src='https://placehold.co/800x600/E07A5F/FDFBF7?text=${encodeURIComponent(project.title)}';"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            >
+            <span class="absolute top-4 left-4 px-3.5 py-1 rounded-full text-xs font-bold bg-white/90 dark:bg-charcoal-900/90 text-terracotta-600 dark:text-terracotta-400 backdrop-blur-sm shadow-sm">
+              ${project.category}
+            </span>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-serif text-xl font-bold text-stone-900 dark:text-cream-50 group-hover:text-terracotta-500 transition-colors">
+                ${project.title}
+              </h3>
+              <p class="mt-2 text-sm text-stone-600 dark:text-stone-300 line-clamp-2">
+                ${project.shortDesc}
+              </p>
+            </div>
+            <div class="mt-5 pt-4 border-t border-stone-100 dark:border-stone-700/60 flex items-center justify-between text-xs font-semibold text-terracotta-500">
+              <span>Lihat Detail Proyek</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+            </div>
+          </div>
+        `;
+        card.addEventListener('click', () => openModal(project));
+        projectsGrid.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    // Inisialisasi tampilan awal proyek
+    renderProjects();
+
+    // Event Listener Tombol Filter
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => {
+          b.classList.remove('bg-terracotta-500', 'text-white', 'shadow-sm');
+          b.classList.add('bg-white', 'dark:bg-charcoal-800', 'text-stone-700', 'dark:text-stone-300');
+        });
+        btn.classList.remove('bg-white', 'dark:bg-charcoal-800', 'text-stone-700', 'dark:text-stone-300');
+        btn.classList.add('bg-terracotta-500', 'text-white', 'shadow-sm');
+        
+        renderProjects(btn.getAttribute('data-filter'));
+      });
+    });
+
+    // 4. LOGIKA MODAL POP-UP PROYEK
+    const modal = document.getElementById('project-modal');
+    const closeModalBtn = document.getElementById('close-modal');
+    const modalCta = document.getElementById('modal-cta');
+
+    function openModal(project) {
+      document.getElementById('modal-img').src = project.image;
+      document.getElementById('modal-category').textContent = project.category;
+      document.getElementById('modal-year').textContent = `Tahun ${project.year}`;
+      document.getElementById('modal-title').textContent = project.title;
+      document.getElementById('modal-desc').textContent = project.fullDesc;
+
+      const tagsContainer = document.getElementById('modal-tags');
+      tagsContainer.innerHTML = project.tags.map(tag => 
+        `<span class="px-3 py-1 rounded-xl text-xs font-medium bg-cream-100 dark:bg-charcoal-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700">${tag}</span>`
+      ).join('');
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    closeModalBtn.addEventListener('click', closeModal);
+    modalCta.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
+    });
+
+    // 5. VALIDASI FORMULIR KONTAK & NOTIFIKASI TOAST
+    const contactForm = document.getElementById('contact-form');
+    const toast = document.getElementById('toast-notification');
+
+    function showToast() {
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 4500);
+    }
+
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const nameInput = document.getElementById('name');
+      const emailInput = document.getElementById('email');
+      const messageInput = document.getElementById('message');
+
+      const errName = document.getElementById('error-name');
+      const errEmail = document.getElementById('error-email');
+      const errMessage = document.getElementById('error-message');
+
+      let isValid = true;
+
+      // Validasi Nama
+      if (nameInput.value.trim().length < 2) {
+        errName.classList.remove('hidden');
+        isValid = false;
+      } else {
+        errName.classList.add('hidden');
+      }
+
+      // Validasi Email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailInput.value.trim())) {
+        errEmail.classList.remove('hidden');
+        isValid = false;
+      } else {
+        errEmail.classList.add('hidden');
+      }
+
+      // Validasi Pesan
+      if (messageInput.value.trim().length < 10) {
+        errMessage.classList.remove('hidden');
+        isValid = false;
+      } else {
+        errMessage.classList.add('hidden');
+      }
+
+      if (isValid) {
+        contactForm.reset();
+        showToast();
+      }
+    });
+
+    // 6. ANIMASI HALUS SAAT SCROLL (INTERSECTION OBSERVER)
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+  </script>
+</body>
+</html>
